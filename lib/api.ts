@@ -1,3 +1,4 @@
+// lib/api.ts
 import axios from 'axios';
 import type { Note, NoteFormValues, UpdateNoteParams } from '../types/note';
 
@@ -16,41 +17,45 @@ const authHeader = {
   },
 };
 
-export const fetchNotes = async (
-  search: string,
-  page: number,
-): Promise<NotesHTTPResponse> => {
+/**
+ * Отримати список нотаток
+ */
+export async function fetchNotes(search: string, page: number): Promise<NotesHTTPResponse> {
   const resp = await axios.get<NotesHTTPResponse>('/notes', {
     params: { search, page, perPage: 12 },
     ...authHeader,
   });
   return resp.data;
-};
+}
 
-export const fetchSingleNote = async (id: string): Promise<Note> => {
+/**
+ * Отримати одну нотатку за id
+ */
+export async function fetchSingleNote(id: string): Promise<Note> {
   const resp = await axios.get<Note>(`/notes/${id}`, authHeader);
   return resp.data;
-};
+}
 
-export const createNote = async ({
-  title,
-  content,
-  tag,
-}: NoteFormValues): Promise<Note> => {
-  const newNote = { title, content, tag };
-  const resp = await axios.post<Note>('/notes', newNote, authHeader);
+/**
+ * Створити нову нотатку
+ */
+export async function createNote({ title, content, tag }: NoteFormValues): Promise<Note> {
+  const resp = await axios.post<Note>('/notes', { title, content, tag }, authHeader);
   return resp.data;
-};
+}
 
-export const updateNote = async (
-  id: string,
-  payload: UpdateNoteParams,
-): Promise<Note> => {
+/**
+ * Оновити нотатку
+ */
+export async function updateNote(id: string, payload: UpdateNoteParams): Promise<Note> {
   const resp = await axios.patch<Note>(`/notes/${id}`, payload, authHeader);
   return resp.data;
-};
+}
 
-export const deleteNote = async (id: string): Promise<Note> => {
+/**
+ * Видалити нотатку
+ */
+export async function deleteNote(id: string): Promise<Note> {
   const resp = await axios.delete<Note>(`/notes/${id}`, authHeader);
   return resp.data;
-};
+}
