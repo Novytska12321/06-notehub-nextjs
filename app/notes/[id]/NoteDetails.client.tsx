@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { fetchSingleNote } from '@/lib/api'; // 🔧 Імпорт реальної функції
 import css from './NoteDetails.module.css';
-import { Note } from '@/types/note';
+
+
 
 
 const NoteDetailsClient = () => {
